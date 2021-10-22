@@ -99,7 +99,7 @@ if __name__ == "__main__":
     # 表头信息
     global header_choice
     global header_lines
-    global header_lilun
+    global header_tof
 
     # 题目存储
     global q_choice
