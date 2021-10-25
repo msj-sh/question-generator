@@ -69,7 +69,11 @@ def write2file():
             print("!! Failed to write TOF questions to a file")
         # 每行加回车
         for i in range(0, len(q_tof)):
-            q_tof[i] = q_tof[i] + "\n"
+            t = q_tof[i]
+            # 删除选择题中的特定词
+            t = t.replace("下列", "")
+            t = t.replace("以下", "")
+            q_tof[i] = t + "\n"
         fp.write(header_tof + "\n")
         fp.writelines(q_tof)
     # 写出选择题
