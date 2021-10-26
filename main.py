@@ -33,11 +33,11 @@ def generate_tof_questions(item):
     global border_right
     global q_tof
     id = item[0]
-    question = item[1]
-    key = item[2]
+    question = item[1].replace("\\", "\\\\")
+    key = item[2].replace("\\", "\\\\")
     pattern = border_left + "[\s\S]*" + border_right
     for i in range(2,7):
-        d = id + "," + re.sub(pattern, item[i], question) + "," + is_key(item[i], key)
+        d = id + "," + re.sub(pattern, item[i].replace("\\", "\\\\"), question) + "," + is_key(item[i], key)
         q_tof.append(d)
 
 # 单选题生成器
@@ -123,6 +123,7 @@ if __name__ == "__main__":
     # 读取原始文件
     origin_questions = readfile()
     for i in range(0, len(origin_questions)):
+        print(i)
         item = split(origin_questions[i])
         generate_tof_questions(item)
         generate_choice(item)
