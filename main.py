@@ -33,11 +33,14 @@ def generate_tof_questions(item):
     global border_right
     global q_tof
     id = item[0]
-    question = item[1].replace("\\", "\\\\")
-    key = item[2].replace("\\", "\\\\")
+    question = item[1]
+    key = item[2]
     pattern = border_left + "[\s\S]*" + border_right
+    # 对3-7列内容进行处理
     for i in range(2,7):
-        d = id + "," + re.sub(pattern, item[i].replace("\\", "\\\\"), question) + "," + is_key(item[i], key)
+        # 防止 \S 转义
+        repl = item[i].replace("\\", "\\\\")
+        d = id + "," + re.sub(pattern, repl, question) + "," + is_key(item[i], key)
         q_tof.append(d)
 
 # 单选题生成器
@@ -121,11 +124,16 @@ if __name__ == "__main__":
     q_tof = []
 
     # 读取原始文件
+    print("任务开始，正在读取文件", end="\r")
     origin_questions = readfile()
+    # 计数
     for i in range(0, len(origin_questions)):
-        print(i)
+        print("正在处理：", str((i + 1)), "/", str(len(origin_questions)), end="\r")
         item = split(origin_questions[i])
         generate_tof_questions(item)
         generate_choice(item)
     write2file()
+    print("本次任务共导入：" + str(len(origin_questions)) + "题")
+    print("本次任务共生成选择题：" + str(len(q_choice)) + "题")
+    print("本次任务共生成单选题：" + str(len(q_tof)) + "题")
 
