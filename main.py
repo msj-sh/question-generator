@@ -51,7 +51,7 @@ def generate_choice(item):
     id = item[0]
     question = item[1]
     key = item[2]
-    pattern = border_left + "[\s\S]*" + border_right
+    # pattern = border_left + "[\s\S]*" + border_right
     d = id + "," + question + "," + key + "," + item[3] + "," + item[4] + "," + item[5]
     q_choice.append(d)
     d = id + "," + question + "," + key + "," + item[3] + "," + item[4] + "," + item[6]
