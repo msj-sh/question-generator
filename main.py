@@ -12,9 +12,9 @@ def readfile(filename = 'q.csv'):
     return origin_questions[header_lines:]
 
 # 切割字符串
-def split(data, split_mark = ','):
+def split(data):
+    global split_mark
     res = data.split(split_mark, -1)
-
     # 去除头尾空白符
     for i in range(0, 7):
         res[i] = res[i].strip()
@@ -32,15 +32,19 @@ def generate_tof_questions(item):
     global border_left
     global border_right
     global q_tof
+    global split_mark
     id = item[0]
     question = item[1]
     key = item[2]
     pattern = border_left + "[\s\S]*" + border_right
     # 对3-7列内容进行处理
     for i in range(2,7):
+        # 减少题量
+        #if (i == 3 or i ==4 or i == 5):
+        #    continue
         # 防止 \S 转义
         repl = item[i].replace("\\", "\\\\")
-        d = id + "," + re.sub(pattern, repl, question) + "," + is_key(item[i], key)
+        d = id + split_mark + re.sub(pattern, repl, question) + split_mark + is_key(item[i], key)
         q_tof.append(d)
 
 # 单选题生成器
@@ -48,17 +52,22 @@ def generate_choice(item):
     global border_left
     global border_right
     global q_choice
+    global split_mark
     id = item[0]
     question = item[1]
     key = item[2]
     # pattern = border_left + "[\s\S]*" + border_right
-    d = id + "," + question + "," + key + "," + item[3] + "," + item[4] + "," + item[5]
+    # 345
+    d = id + split_mark + question + split_mark + key + split_mark + item[3] + split_mark + item[4] + split_mark + item[5]
     q_choice.append(d)
-    d = id + "," + question + "," + key + "," + item[3] + "," + item[4] + "," + item[6]
+    # 346
+    d = id + split_mark + question + split_mark + key + split_mark + item[3] + split_mark + item[4] + split_mark + item[6]
     q_choice.append(d)
-    d = id + "," + question + "," + key + "," + item[3] + "," + item[5] + "," + item[6]
+    # 356
+    d = id + split_mark + question + split_mark + key + split_mark + item[3] + split_mark + item[5] + split_mark + item[6]
     q_choice.append(d)
-    d = id + "," + question + "," + key + "," + item[4] + "," + item[5] + "," + item[6]
+    # 456
+    d = id + split_mark + question + split_mark + key + split_mark + item[4] + split_mark + item[5] + split_mark + item[6]
     q_choice.append(d)
 
 def write2file():
@@ -118,8 +127,8 @@ if __name__ == "__main__":
     border_left = "（"
     border_right = "）"
     header_lines = 1
-    header_tof = "识别号,题面,答案"
-    header_choice = "识别号,题面,选项1（答案）,选项2,选项3,选项4"
+    header_tof = "识别号" +split_mark+ "题面" +split_mark+ "答案"
+    header_choice = "识别号"+split_mark+"题面"+split_mark+"选项1（答案）"+split_mark+"选项2"+split_mark+"选项3"+split_mark+"选项4"
     q_choice = []
     q_tof = []
 
