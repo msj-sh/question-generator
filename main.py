@@ -57,7 +57,6 @@ def generate_choice(item):
     id = item[0]
     question = item[1]
     key = item[2]
-    # pattern = border_left + "[\s\S]*" + border_right
     # 345
     d = id + split_mark + question + split_mark + key + split_mark + item[3] + split_mark + item[4] + split_mark + item[5]
     q_choice.append(d)
@@ -105,31 +104,29 @@ if __name__ == "__main__":
 
     # 原始数据存储
     global origin_questions
+    origin_questions = []
 
     # 分隔符
     global split_mark
+    split_mark = ","
 
     # 填空符
     global border_left
     global border_right
+    border_left = "（"
+    border_right = "）"
 
     # 表头信息
     global header_choice
     global header_lines
     global header_tof
+    header_choice = "识别号"+split_mark+"题面"+split_mark+"选项1（答案）"+split_mark+"选项2"+split_mark+"选项3"+split_mark+"选项4"
+    header_lines = 1
+    header_tof = "识别号" +split_mark+ "题面" +split_mark+ "答案"
 
     # 题目存储
     global q_choice
     global q_tof
-
-    # 初始化变量
-    origin_questions = []
-    split_mark = ","
-    border_left = "（"
-    border_right = "）"
-    header_lines = 1
-    header_tof = "识别号" +split_mark+ "题面" +split_mark+ "答案"
-    header_choice = "识别号"+split_mark+"题面"+split_mark+"选项1（答案）"+split_mark+"选项2"+split_mark+"选项3"+split_mark+"选项4"
     q_choice = []
     q_tof = []
 
