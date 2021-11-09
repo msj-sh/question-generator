@@ -1,25 +1,26 @@
 #! /usr/bin/python3
 
 import re
+import csv
+import time
 
 # 读取原始文件
 def readfile(filename = 'q.csv'):
     global header_lines
-    with open(filename, 'r') as fp:
-        origin_questions = fp.readlines()
-
+    c = csv.reader(open(filename, 'r'))
+    origin_questions = []
+    for i in c:
+        origin_questions.append(i)
     # 去除表头
     return origin_questions[header_lines:]
 
-# 切割字符串
-def split(data):
-    global split_mark
-    res = data.split(split_mark, -1)
+# 文字清洗
+def xtrim(data):
     # 去除头尾空白符
     for i in range(0, 7):
-        res[i] = res[i].strip()
-    # print(res)
-    return res
+        data[i] = data[i].strip()
+    print(data)
+    return data
 
 def is_key(str, key):
     if str == key:
@@ -138,7 +139,7 @@ if __name__ == "__main__":
     # 计数
     for i in range(0, len(origin_questions)):
         print("正在处理：", str((i + 1)), "/", str(len(origin_questions)), end="\r")
-        item = split(origin_questions[i])
+        item = xtrim(origin_questions[i])
         generate_tof_questions(item)
         generate_choice(item)
     write2file()
